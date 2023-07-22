@@ -8,8 +8,9 @@ use App\Http\Controllers\Api\AuthController;
 
 
 
-Route::post('v1/login', [AuthController::class,'login']);
-Route::get('logout', [AuthController::class,'logout']);
+Route::post('/v1/login', [AuthController::class,'login']);
+Route::post('/v1/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('/v1/reset-password', [AuthController::class, 'resetPassword']);
 
 Route::group(['prefix' => 'v1', 'as' => 'api.', 'middleware' => ['auth:sanctum']], function () {
     // Company
@@ -25,6 +26,4 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'middleware' => ['auth:sanctum']
     Route::post('certificates/media', [CertificateApiController::class, 'storeMedia'])->name('certificates.store_media');
     Route::apiResource('certificates', CertificateApiController::class);
 
-    //logout
-    Route::get('logout', [AuthController::class,'logout']);
 });
